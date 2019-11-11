@@ -36,6 +36,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
 //        mapView.addAnnotation(rome)
 //        mapView.addAnnotation(washington)
         mapView.addAnnotations([london, oslo, paris, rome, washington])
+        mapView.mapType = .hybrid
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -43,18 +44,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
         guard annotation is Capital else { return nil }
 
         let identifier = "Capital"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
 
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
+            annotationView?.pinTintColor = .green
 
             let button = UIButton(type: .detailDisclosure)
             annotationView?.rightCalloutAccessoryView = button
         } else {
             annotationView?.annotation = annotation
         }
-
+//        print(annotation.title)
+        
         return annotationView
     }
     
